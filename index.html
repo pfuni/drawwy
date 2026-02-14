@@ -3,76 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drawwy | Portfolio</title>
+    <title>Drawwy | Dark Neo-Brutalism</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
         
+        :root {
+            --yellow: #ffc017;
+            --red: #c53030;
+            --dark: #1a1a1a;
+            --bg-accent: #e5a500;
+        }
+
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background-color: #f8f9fa;
+            background-color: var(--yellow);
+            color: var(--dark);
             overflow-x: hidden;
         }
 
-        .yellow-bg { background-color: #ffc017; }
-        
+        /* Neo-Brutalism Utilities */
         .brutal-card {
             background: white;
-            border: 4px solid #000;
-            box-shadow: 8px 8px 0px #000;
-            transition: all 0.2s ease;
-            margin-bottom: 24px;
-            display: inline-block;
-            width: 100%;
-        }
-        .profile-circle {
-            border-radius: 9999px !important;
+            border: 4px solid var(--dark);
+            box-shadow: 10px 10px 0px var(--dark);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
             overflow: hidden;
-            border: 6px solid #000;
-            box-shadow: 10px 10px 0px #000;
         }
-
-        .brutal-btn {
-            background: #000;
-            color: #fff;
-            border: 3px solid #000;
+        
+        .brutal-btn-red {
+            background: var(--red);
+            color: white;
+            border: 3px solid var(--dark);
             padding: 12px 28px;
             font-weight: bold;
-            display: inline-block;
-            box-shadow: 5px 5px 0px #ffc017;
+            box-shadow: 5px 5px 0px var(--dark);
             transition: all 0.2s ease;
             text-transform: uppercase;
         }
 
-        .brutal-btn:hover {
+        .brutal-btn-red:hover {
             transform: translate(-3px, -3px);
-            box-shadow: 8px 8px 0px #ffc017;
+            box-shadow: 8px 8px 0px var(--dark);
         }
 
-        .hero-slant {
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        /* Portfolio Hover Effect - Komentarz */
+        .comment-overlay {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-top: 4px solid var(--dark);
+            z-index: 10;
         }
 
-        .nav-link { font-weight: bold; transition: color 0.2s; text-transform: uppercase; font-size: 0.875rem; }
-        .nav-link:hover { color: #ffc017; }
+        .brutal-card:hover .comment-overlay {
+            bottom: 0;
+        }
+
+        .brutal-card:hover .portfolio-img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
 
         .portfolio-img {
             width: 100%;
             height: auto;
             display: block;
-            filter: grayscale(100%);
+            filter: grayscale(30%);
             transition: all 0.5s ease;
         }
 
-        .brutal-card:hover .portfolio-img {
-            filter: grayscale(0%);
+        /* Home Profile Styling */
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
         }
+        
+        .profile-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 8px solid var(--dark);
+            background: var(--red);
+            overflow: hidden;
+            box-shadow: 15px 15px 0px var(--dark);
+        }
+
+        .nav-link { font-weight: 800; text-transform: uppercase; border-bottom: 4px solid transparent; transition: all 0.2s; }
+        .nav-link:hover { border-color: var(--red); color: var(--red); }
 
         .masonry-grid {
             column-count: 1;
-            column-gap: 24px;
+            column-gap: 30px;
         }
         @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
         @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
@@ -83,121 +113,147 @@
     <nav class="fixed top-0 w-full z-[100] py-4 px-6 flex justify-between items-center bg-white border-b-4 border-black">
         <div class="flex items-center space-x-3">
             <img src="https://64.media.tumblr.com/3000fd28d002895e12f28ea345839115/612ed406f3eb37f3-d0/s128x128u_c1/19e8e198f9269755a37f1ae44b856372a9fe3d6f.pnj" 
-                 class="w-10 h-10 rounded-full border-2 border-black" alt="Drawwy Avatar">
+                 class="w-10 h-10 rounded-full border-2 border-black" alt="Drawwy">
             <span class="font-bold text-2xl tracking-tighter uppercase italic">Drawwy</span>
         </div>
-        <div class="hidden md:flex space-x-8 font-black">
-            <a href="#home" class="nav-link">Start</a>
-            <a href="#feed" class="nav-link">News</a>
-            <a href="#portfolio" class="nav-link">Portfolio</a>
-            <a href="#contact" class="nav-link">Kontakt</a>
+        <div class="hidden md:flex space-x-8">
+            <a href="#home" class="nav-link text-sm">#home</a>
+            <a href="#feed" class="nav-link text-sm text-red-600">#news</a>
+            <a href="#portfolio" class="nav-link text-sm">#work</a>
+            <a href="#contact" class="nav-link text-sm">#hire</a>
         </div>
-        <button id="loginBtn" class="brutal-btn py-2 px-4 text-sm shadow-[3px_3px_0px_#ffc017]">
+        <button id="loginBtn" class="brutal-btn-red py-2 px-4 text-xs shadow-[3px_3px_0px_#000]">
             <i data-lucide="lock" class="w-4 h-4"></i>
         </button>
     </nav>
 
-    <section id="home" class="yellow-bg hero-slant min-h-screen pt-32 pb-48 px-6 flex items-center border-b-4 border-black overflow-hidden">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <section id="home" class="min-h-screen pt-40 pb-32 px-6 flex items-center justify-center border-b-8 border-black bg-[radial-gradient(var(--bg-accent)_1.5px,transparent_1.5px)] [background-size:30px_30px]">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center">
             
             <div data-aos="fade-right" data-aos-duration="1000" data-aos-once="true">
-                <h1 class="text-7xl md:text-9xl font-bold leading-[0.9] mb-8 uppercase">Drawwy</h1>
-                <p class="text-2xl mb-10 font-bold border-l-8 border-black pl-6 italic">
-                    Twoje pomysły, moja kreska. Rysunki na zamówienie z charakterem.
+                <div class="inline-block bg-black text-white px-4 py-1 font-bold text-sm uppercase mb-6 shadow-[5px_5px_0px_#c53030]">
+                    Available for Work
+                </div>
+                <h1 class="text-8xl md:text-9xl font-black leading-[0.8] mb-8 uppercase italic tracking-tighter">
+                    DRA<br><span class="text-white drop-shadow-[6px_6px_0px_#000]">WWY</span>
+                </h1>
+                <p class="text-2xl mb-10 font-bold max-w-md leading-tight">
+                    LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. SED DO EIUSMOD TEMPOR INCIDIDUNT.
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="#contact" class="brutal-btn text-xl uppercase">Złóż zamówienie</a>
-                    <a href="https://drawwwy.tumblr.com/" target="_blank" class="bg-white border-4 border-black p-4 font-bold uppercase hover:bg-black hover:text-white transition">Tumblr</a>
+                <div class="flex flex-wrap gap-6">
+                    <a href="#contact" class="brutal-btn-red text-xl">Let's talk</a>
+                    <a href="https://drawwwy.tumblr.com/" target="_blank" class="p-4 font-black uppercase flex items-center group">
+                        Tumblr <i data-lucide="arrow-up-right" class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition"></i>
+                    </a>
                 </div>
             </div>
 
-            <div class="relative flex justify-center" data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000" data-aos-once="true">
-                <div class="profile-circle w-64 h-64 md:w-80 md:h-80 rotate-3">
+            <div class="profile-wrapper" data-aos="fade-left" data-aos-duration="1000" data-aos-once="true">
+                <div class="profile-circle">
                     <img src="https://64.media.tumblr.com/3000fd28d002895e12f28ea345839115/612ed406f3eb37f3-d0/s128x128u_c1/19e8e198f9269755a37f1ae44b856372a9fe3d6f.pnj" 
                          alt="Drawwy" class="w-full h-full object-cover">
                 </div>
-                <div class="absolute -bottom-4 -right-4 bg-black text-white p-3 font-bold rotate-12 shadow-[4px_4px_0px_#ffc017] uppercase text-sm">
-                    Open for commissions
+                <div class="absolute top-0 -right-4 bg-white border-4 border-black p-4 font-black rotate-12 shadow-[8px_8px_0px_#c53030]">
+                    OPEN<br>SLOTS
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="feed" class="py-32 px-6 bg-white overflow-hidden">
+    <section id="feed" class="py-32 px-6 bg-white border-b-8 border-black">
         <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-16" data-aos="fade-down" data-aos-anchor-placement="top-bottom">
-                <h2 class="text-5xl font-bold uppercase inline-block border-b-8 border-yellow-400 pb-2 italic">Nowości</h2>
-            </div>
-
-            <div id="adminPanel" class="hidden brutal-card p-8 mb-12 bg-yellow-50 border-dashed shadow-none">
-                <textarea id="postText" class="w-full border-4 border-black p-4 font-bold text-lg mb-4 outline-none focus:bg-white" placeholder="Co tam rysujesz?"></textarea>
-                <button onclick="savePost()" class="brutal-btn w-full uppercase">Opublikuj</button>
+            <h2 class="text-6xl font-black uppercase mb-16 italic tracking-tighter text-center" data-aos="fade-down">Recent Activity</h2>
+            
+            <div id="adminPanel" class="hidden brutal-card p-8 mb-12 bg-gray-50">
+                <textarea id="postText" class="w-full border-4 border-black p-4 font-bold outline-none mb-4" placeholder="Post something..."></textarea>
+                <button onclick="savePost()" class="brutal-btn-red w-full">Post News</button>
             </div>
 
             <div id="posts-container" class="space-y-12">
-                <article class="brutal-card p-8 relative" data-aos="fade-left" data-aos-anchor-placement="top-bottom">
-                    <div class="absolute -top-5 -left-5 bg-yellow-400 border-4 border-black px-4 py-1 font-bold italic rotate-[-2deg]">UPDATE</div>
-                    <p class="text-xl font-medium mb-6 mt-4">Witaj w moim nowym portfolio!</p>
-                    <div class="flex justify-between items-center text-xs font-black uppercase text-gray-400">
-                        <span>Drawwy</span><span>14.02.2026</span>
-                    </div>
+                <article class="brutal-card p-10" data-aos="fade-up">
+                    <div class="bg-red-600 text-white inline-block px-3 py-1 font-bold text-xs uppercase mb-4">Update</div>
+                    <p class="text-2xl font-bold italic leading-tight mb-6">LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE ET DOLORE MAGNA ALIQUA.</p>
+                    <div class="text-xs font-black uppercase opacity-40">Posted on: Feb 14, 2026</div>
                 </article>
             </div>
         </div>
     </section>
 
-    <section id="portfolio" class="py-32 px-6 bg-gray-100 border-t-4 border-black overflow-hidden">
+    <section id="portfolio" class="py-32 px-6 bg-[#f0f0f0]">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-5xl font-bold uppercase mb-16 text-center italic" data-aos="zoom-in" data-aos-anchor-placement="top-bottom">Wybrane Prace</h2>
+            <h2 class="text-7xl font-black uppercase mb-20 tracking-tighter" data-aos="zoom-in">Selected Works</h2>
             
             <div class="masonry-grid">
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div class="brutal-card group" data-aos="fade-up">
                     <img src="https://64.media.tumblr.com/e63a891e42b6f5d543eb24a95b67e94e/d051181d36f08b84-e8/s1280x1920/b073c0177f138397960318b3454c8f89b80ae76f.png" class="portfolio-img">
+                    <div class="comment-overlay">
+                        <p class="font-bold text-sm uppercase mb-2">Art Concept #01</p>
+                        <p class="text-xs font-medium">LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. UT ENIM AD MINIM VENIAM.</p>
+                    </div>
                 </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div class="brutal-card group" data-aos="fade-up">
                     <img src="https://64.media.tumblr.com/47a0aeceda52505c1e9d09d6ee2e0c18/857e7ab47132d3be-8c/s1280x1920/8cbbba6685895861edc064fb033cd50b0ef7fa47.png" class="portfolio-img">
+                    <div class="comment-overlay">
+                        <p class="font-bold text-sm uppercase mb-2">Vibe Check</p>
+                        <p class="text-xs font-medium">QUIS NOSTRUD EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP EX EA COMMODO CONSEQUAT.</p>
+                    </div>
                 </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div class="brutal-card group" data-aos="fade-up">
                     <img src="https://64.media.tumblr.com/841b45e7d5ae613d815818f4aa2199ea/a9472af00f1d3d00-2a/s1280x1920/7cca2613dbbfaa059ab6d2a68bbffcfc02c92c87.png" class="portfolio-img">
+                    <div class="comment-overlay">
+                        <p class="font-bold text-sm uppercase mb-2">Night Sketch</p>
+                        <p class="text-xs font-medium">DUIS AUTE IRURE DOLOR IN REPREHENDERIT IN VOLUPTATE VELIT ESSE CILLUM DOLORE.</p>
+                    </div>
                 </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div class="brutal-card group" data-aos="fade-up">
                     <img src="https://64.media.tumblr.com/3aa7e4f07099f2462f85ccd4c94b8847/c3c1970403c6a364-12/s1280x1920/b8ca7e27983189eff59aaf55ddcc23ce33fc8077.png" class="portfolio-img">
+                    <div class="comment-overlay">
+                        <p class="font-bold text-sm uppercase mb-2">Digital Chaos</p>
+                        <p class="text-xs font-medium">EXCEPTEUR SINT OCCAECAT CUPIDATAT NON PROIDENT, SUNT IN CULPA QUI OFFICIA DESERUNT.</p>
+                    </div>
                 </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div class="brutal-card group" data-aos="fade-up">
                     <img src="https://64.media.tumblr.com/bd21f252ae0718e99d40d9f9df4f8a23/6285822d7001304e-1b/s2048x3072/40bb1b0518be9a24292682026d12a11c17338ab2.png" class="portfolio-img">
+                    <div class="comment-overlay">
+                        <p class="font-bold text-sm uppercase mb-2">The Ritual</p>
+                        <p class="text-xs font-medium">LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. SED DO EIUSMOD TEMPOR.</p>
+                    </div>
                 </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                <div class="brutal-card group" data-aos="fade-up">
                     <img src="https://64.media.tumblr.com/312b468466d69b440e4035879b6f5c40/24448c72dbb994e7-49/s1280x1920/a5ae563c8b2d873d86fb2e4b02609219faeed51b.png" class="portfolio-img">
-                </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                    <img src="https://64.media.tumblr.com/365c9df46b870e66623dafa41a67137a/899b73d5294a952e-ba/s1280x1920/dedf957352840a1c78c92f53193c81d4b808cd88.png" class="portfolio-img">
-                </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                    <img src="https://64.media.tumblr.com/f5702c56a76395ddf24788198a222663/3dbfb479e52451c6-30/s1280x1920/724f8c3bf3a8714a4225602f4a7e70f4d8aa3db3.png" class="portfolio-img">
-                </div>
-                <div class="brutal-card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                    <img src="https://64.media.tumblr.com/f6b7be9045b9557b9106fbef6e1bcb99/447978410dcb9b33-47/s1280x1920/2a4fdd4c463ed64e27e77bbcc1dbb053e05d015d.png" class="portfolio-img">
+                    <div class="comment-overlay">
+                        <p class="font-bold text-sm uppercase mb-2">Character Arc</p>
+                        <p class="text-xs font-medium">SED UT PERSPICIATIS UNDE OMNIS ISTE NATUS ERROR SIT VOLUPTATEM ACCUSANTIUM DOLOREMQUE.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-40 px-6 yellow-bg border-t-4 border-black">
-        <div class="max-w-4xl mx-auto text-center" data-aos="zoom-in-up" data-aos-anchor-placement="top-bottom">
-            <div class="brutal-card p-12 bg-white">
-                <h2 class="text-4xl font-black mb-8 uppercase italic">Napisz do mnie!</h2>
-                <form action="https://formspree.io/f/TWOJE_ID" method="POST" class="text-left space-y-6">
-                    <input type="email" name="email" class="w-full border-4 border-black p-4 font-bold outline-none" placeholder="Twój e-mail" required>
-                    <textarea name="message" class="w-full border-4 border-black p-4 h-48 font-bold outline-none" placeholder="Twój pomysł..." required></textarea>
-                    <button type="submit" class="brutal-btn w-full text-2xl py-6 uppercase">Wyślij wiadomość!</button>
+    <section id="contact" class="py-40 px-6 bg-black text-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="border-8 border-white p-12 shadow-[15px_15px_0px_var(--red)]" data-aos="zoom-in">
+                <h2 class="text-6xl font-black mb-10 uppercase italic">Commission Me</h2>
+                <form action="https://formspree.io/f/TWOJE_ID" method="POST" class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <input type="email" name="email" class="bg-transparent border-b-4 border-white p-4 font-bold text-xl outline-none focus:border-red-600 transition" placeholder="YOUR EMAIL" required>
+                        <input type="text" name="subject" class="bg-transparent border-b-4 border-white p-4 font-bold text-xl outline-none focus:border-red-600 transition" placeholder="PROJECT TYPE">
+                    </div>
+                    <textarea name="message" class="bg-transparent border-4 border-white p-6 w-full h-48 font-bold text-xl outline-none focus:border-red-600 transition" placeholder="TELL ME EVERYTHING..." required></textarea>
+                    <button type="submit" class="brutal-btn-red text-2xl w-full py-6">Send Signal</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <footer class="py-16 text-center border-t-4 border-black bg-white">
-        <div class="font-black text-3xl italic uppercase mb-2">Drawwy</div>
-        <p class="font-bold text-gray-500 uppercase text-xs">© 2026 | Hand Drawn with Love</p>
+    <footer class="py-16 text-center border-t-8 border-black bg-white">
+        <div class="font-black text-4xl italic uppercase mb-4 tracking-tighter">Drawwy</div>
+        <div class="flex justify-center space-x-6 mb-8 text-sm font-black uppercase">
+            <a href="https://drawwwy.tumblr.com/" class="hover:text-red-600 transition">Tumblr</a>
+            <a href="#" class="hover:text-red-600 transition">Instagram</a>
+            <a href="#" class="hover:text-red-600 transition">Twitter</a>
+        </div>
+        <p class="text-xs font-black opacity-30 uppercase tracking-widest">© 2026 | Hand Drawn with Love</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -209,7 +265,7 @@
         AOS.init({ duration: 800, once: false, mirror: true, offset: 150, anchorPlacement: 'top-bottom' });
         lucide.createIcons();
 
-        // Firebase - uzupełnij klucze
+        // Firebase Config
         const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -218,16 +274,14 @@
         document.getElementById('loginBtn').onclick = async () => {
             if(auth.currentUser) { signOut(auth); } 
             else {
-                const email = prompt("Email:");
-                const pass = prompt("Hasło:");
-                try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { alert("Błąd!"); }
+                const email = prompt("EMAIL:");
+                const pass = prompt("PASSWORD:");
+                try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { alert("ERROR!"); }
             }
         };
 
         onAuthStateChanged(auth, user => {
             document.getElementById('adminPanel').classList.toggle('hidden', !user);
-            const icon = user ? 'unlock' : 'lock';
-            document.getElementById('loginBtn').innerHTML = `<i data-lucide="${icon}" class="w-4 h-4"></i>`;
             lucide.createIcons();
         });
 
@@ -245,10 +299,10 @@
             snapshot.docChanges().forEach((change) => {
                 if (change.type === "added") {
                     const data = change.doc.data();
-                    const postHTML = `<div class="brutal-card p-8 bg-white mb-8" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                        <p class="text-xl font-medium mb-4 font-bold tracking-tight">${data.content}</p>
-                        <div class="text-xs font-black text-gray-400 uppercase">Drawwy — ${data.createdAt?.toDate().toLocaleString() || 'Teraz'}</div>
-                    </div>`;
+                    const postHTML = `<article class="brutal-card p-10 bg-white" data-aos="fade-up">
+                        <p class="text-2xl font-bold italic leading-tight mb-6 tracking-tight">${data.content}</p>
+                        <div class="text-xs font-black uppercase opacity-40">${data.createdAt?.toDate().toLocaleString() || 'Just now'}</div>
+                    </article>`;
                     container.insertAdjacentHTML('afterbegin', postHTML);
                     AOS.refresh();
                 }
